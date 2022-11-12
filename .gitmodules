@@ -1,0 +1,6 @@
+[submodule "rtl8153"]
+	path = rtl8153
+	url = https://github.com/wget/realtek-r8152-linux.git
+[submodule "xmm7360"]
+	path = xmm7360
+	url = https://github.com/xmm7360/xmm7360-pci.git
