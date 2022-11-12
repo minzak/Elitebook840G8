@@ -55,3 +55,22 @@ sudo depmod -a
 sudo update-initramfs -c -k all
 sudo update-grub
 ```
+
+## Audio
+
+Check presend device in system
+```
+lspci | grep -i audio
+00:1f.3 Multimedia audio controller: Intel Corporation Tiger Lake-LP Smart Sound Technology Audio Controller (rev 20)
+```
+Then install and reboot
+```
+sudo apt update && sudo apt install firmware-sof-signed -y
+```
+
+## Reconfigure SSH
+
+```
+sudo dpkg-reconfigure openssh-server
+sudo service sshd restart
+```
