@@ -74,3 +74,18 @@ sudo apt update && sudo apt install firmware-sof-signed -y
 sudo dpkg-reconfigure openssh-server
 sudo service sshd restart
 ```
+
+## HP Flash
+
+* https://ftp.hp.com/pub/caps-softpaq/cmit/linuxtools/HP_LinuxTools.html
+* https://ftp.ext.hp.com/pub/caps-softpaq/cmit/linuxtools/HP_Linux_Tools_Users_Guide.pdf
+* https://ftp.hp.com/pub/softpaq/sp143001-143500/sp143035.tgz
+
+```
+make
+make install
+sudo insmod hpuefi.ko
+sudo mknod -m 644 /dev/hpuefi c `grep hpuefi /proc/devices | cut -d ' ' -f 1` 0
+sudo update-initramfs -c -k all
+sudo update-grub
+```
