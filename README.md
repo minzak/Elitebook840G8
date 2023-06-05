@@ -89,3 +89,65 @@ sudo mknod -m 644 /dev/hpuefi c `grep hpuefi /proc/devices | cut -d ' ' -f 1` 0
 sudo update-initramfs -c -k all
 sudo update-grub
 ```
+
+## Synaptics FS7604 Touch Fingerprint Sensor with PurePrint(TM) USB\VID_06CB&PID_00F0
+
+```
+$ lsusb | grep "Synaptics"
+Bus 003 Device 004: ID 06cb:00f0 Synaptics, Inc.
+```
+
+```
+$ fwupdmgr --version
+client version: 1.5.7
+compile-time dependency versions
+        gusb:   0.3.5
+
+daemon version: 1.5.7
+```
+* https://gitlab.freedesktop.org/libfprint/libfprint/-/issues/411
+```
+Version 10.01.3478575
+Prometheus (10.01.3273255 → 10.01.3478575)
+```
+
+## Fingerprint
+
+```
+me@elitebook / $ fprintd-enroll -f right-index-finger
+Using device /net/reactivated/Fprint/Device/0
+Enrolling right-index-finger finger.
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-completed
+me@elitebook / $ fprintd-enroll -f right-middle-finger
+Using device /net/reactivated/Fprint/Device/0
+Enrolling right-middle-finger finger.
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-completed
+me@elitebook / $ fprintd-enroll -f right-ring-finger
+Using device /net/reactivated/Fprint/Device/0
+Enrolling right-ring-finger finger.
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-stage-passed
+Enroll result: enroll-completed
+```
