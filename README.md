@@ -77,6 +77,7 @@ sudo service sshd restart
 
 ## HP Flash
 
+* https://ubuntuforums.org/printthread.php?s=6af7a7fc6bd53fab9bfd31381c8e621b&t=2469690&pp=10&page=1
 * https://ftp.hp.com/pub/caps-softpaq/cmit/linuxtools/HP_LinuxTools.html
 * https://ftp.ext.hp.com/pub/caps-softpaq/cmit/linuxtools/HP_Linux_Tools_Users_Guide.pdf
 * https://ftp.hp.com/pub/softpaq/sp143001-143500/sp143035.tgz
@@ -91,6 +92,9 @@ sudo update-grub
 ```
 
 ## Synaptics FS7604 Touch Fingerprint Sensor with PurePrint(TM) USB\VID_06CB&PID_00F0
+
+* https://gitlab.freedesktop.org/libfprint/libfprint
+* https://gitlab.freedesktop.org/libfprint/fprintd
 
 ```
 $ lsusb | grep "Synaptics"
@@ -109,13 +113,22 @@ daemon version: 1.5.7
 ```
 Version 10.01.3478575
 Prometheus (10.01.3273255 → 10.01.3478575)
+Prometheus IOTA Config (0004 → 0005)
 ```
 
 ## Fingerprint
 
+* https://fprint.freedesktop.org/supported-devices.html
+
+```
+sudo apt install -y fprintd libpam-fprintd gir1.2-gusb-1.0
+fprintd-enroll -f right-index-finger
+sudo pam-auth-update --enable fprintd
+```
+
 ```
 me@elitebook / $ fprintd-enroll -f right-index-finger
-Using device /net/reactivated/Fprint/Device/0
+aUsing device /net/reactivated/Fprint/Device/0
 Enrolling right-index-finger finger.
 Enroll result: enroll-stage-passed
 Enroll result: enroll-stage-passed
@@ -150,4 +163,25 @@ Enroll result: enroll-stage-passed
 Enroll result: enroll-stage-passed
 Enroll result: enroll-stage-passed
 Enroll result: enroll-completed
+```
+
+```
+$ fprintd-list me
+found 1 devices
+Device at /net/reactivated/Fprint/Device/0
+Using device /net/reactivated/Fprint/Device/0
+Fingerprints for user me on Synaptics Sensors (press):
+ - #0: right-ring-finger
+ - #1: right-middle-finger
+ - #2: right-index-finger
+```
+
+```
+fprintd-delete $USER
+```
+All your fingerprint data will be destroyed and you will be able to sudo or login from Virtual Terminals as yourself with password.
+
+add to /etc/pam.d/sudo:
+```
+auth sufficient pam_fprintd.so
 ```
