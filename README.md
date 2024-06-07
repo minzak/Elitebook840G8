@@ -1,4 +1,4 @@
-y# HP Elitebook840G8
+# HP Elitebook840G8
 HP Elitebook 840 G8
 
 To install need put to root install USB disk next files from this link - http://http.kali.org/pool/non-free/f/firmware-nonfree/
@@ -10,6 +10,16 @@ To install need put to root install USB disk next files from this link - http://
 
 
 To install all it - use submodule from this repo.
+
+## UEFI
+
+```
+sudo lsblk
+sudo efibootmgr -v
+sudo efibootmgr -c -d /dev/nvme0n1 -p 1 -L "Debian boot NVME" -l "\EFI\debian\grubx64.efi"
+sudo efibootmgr -o 0006,0000,0003,0001,0002,0004,0005
+```
+
 
 ## Intel XMM7360 LTE Advanced Modem
 
@@ -43,12 +53,13 @@ lsusb
 Bus 002 Device 003: ID 0bda:8153 Realtek Semiconductor Corp. RTL8153 Gigabit Ethernet Adapter
 ```
 
-From original site download archive if submodule will be too old - https://www.realtek.com/en/component/zoo/category/network-interface-controllers-10-100-1000m-gigabit-ethernet-usb-3-0-software archive like r8152-2.16.3.tar.bz2
+rom original site download archive if submodule will be too old - https://www.realtek.com/en/component/zoo/category/network-interface-controllers-10-100-1000m-gigabit-ethernet-usb-3-0-software archive like r8152-2.17.1.tar.bz2
+or see this - https://github.com/awesometic/realtek-r8152-dkms/releases
 
 ```
 sudo apt install linux-headers-$(uname -r)
 
-cd r8152-2.16.3
+cd r8152-2.17.1
 make
 sudo make install
 sudo depmod -a
@@ -184,4 +195,40 @@ All your fingerprint data will be destroyed and you will be able to sudo or logi
 add to /etc/pam.d/sudo:
 ```
 auth sufficient pam_fprintd.so
+```
+
+## HP Thunderbolt G2
+
+```
+sudo apt-get install bolt
+
+boltctl
+ ● HP Thunderbolt Dock G2
+   ├─ type:          peripheral
+   ├─ name:          Thunderbolt Dock G2
+   ├─ vendor:        HP
+   ├─ uuid:          0051aaa8-085f-f000-ffff-ffffffffffff
+   ├─ generation:    Thunderbolt 3
+   ├─ status:        authorized
+   │  ├─ domain:     a03433e0-8616-8780-ffff-ffffffffffff
+   │  ├─ rx speed:   40 Gb/s = 2 lanes * 20 Gb/s
+   │  ├─ tx speed:   40 Gb/s = 2 lanes * 20 Gb/s
+   │  └─ authflags:  none
+   ├─ authorized:    Wed 03 Jan 2024 09:43:32 PM UTC
+   ├─ connected:     Wed 03 Jan 2024 09:43:32 PM UTC
+   └─ stored:        Wed 03 Jan 2024 11:40:36 PM UTC
+      ├─ policy:     iommu
+      └─ key:        no
+
+sudo boltctl enroll --policy auto 0051aaa8-085f-f000-ffff-ffffffffffff
+```
+## Firmware
+
+```
+fwupd
+fwupdmgr get-devices
+fwupdmgr get-devices --json
+fwupdmgr get-updates
+fwupdmgr update
+fwupdmgr upgrade
 ```

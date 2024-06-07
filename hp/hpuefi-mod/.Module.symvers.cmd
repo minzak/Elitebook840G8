@@ -1,0 +1,1 @@
+cmd_/usr/local/src/Elitebook840G8/hp/hpuefi-mod/Module.symvers := sed 's/ko$$/o/' /usr/local/src/Elitebook840G8/hp/hpuefi-mod/modules.order | scripts/mod/modpost -m    -o /usr/local/src/Elitebook840G8/hp/hpuefi-mod/Module.symvers -e -i Module.symvers   -T -

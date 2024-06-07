@@ -1,0 +1,108 @@
+modinfo tpm_tis
+I blacklisted `tpm_crb` and `tpm_tis` and it indeed worked.
+tpm_tis.interrupts=0
+"tpm_tis.itpm=1", "tpm_tis.interrupts=0"
+
+/etc/modprobe.d/tpm.conf
+blacklist tpm
+blacklist tpm_tis
+blacklist tpm_tis_core
+
+cat /proc/modules | grep -i tpm
+
+
+thermal thermal_zone12: failed to read out thermal zone (-61)
+
+
+XF86AudioMicMute
+XF86AudioMute
+
+xmodmap -pke | grep Audio
+
+sudo showkey -k
+keycode 190 press
+keycode 190 release
+keycode 113 press
+keycode 113 release
+
+pactl set-sink-mute @DEFAULT_SINK@ toggle
+pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+
+
+#grub
+hpet=disable
+
+- intel_idle.max_cstate=7: this indirectly disables PC10, keeps TSC and HPET, clocksource and watchdog are in low difference within 62.5ms.
+- tsc=reliable: this disables Linux kernel clocksource watchdog
+- hpet=disable: this makes kernel choose another existing clocksource as watchdog
+- acpi=force
+- acpi_osi=Linux
+- pci=nocrs
+apic_verbosity=verbose loglvl=all
+hpet=force,verbose 
+
+clocksource=tsc
+/sys/devices/system/clocksource/clocksource0
+
+
+acpidump -s
+
+
+
+sensors | grep iwlw -A 2
+
+#FINGERPRINT
+#https://community.frame.work/t/responded-fingerprint-scanner-compatibility-with-linux-ubuntu-fedora-etc/1501/18
+sudo apt install gtk-doc-tools libfprint-2-dev libgirepository1.0-dev libgusb-dev libpam-wrapper libpam0g-dev libpamtest0-dev libpolkit-gobject-1-dev libxml2-utils python3-pip python3-pypamtest libnss3-dev
+
+
+sudo apt install fprintd
+
+fprintd-enroll
+
+
+https://linux-hardware.org/?id=usb:06cb-00f0
+https://www.reddit.com/r/kdeneon/comments/w8qlob/how_i_got_the_fingerprint_sensor_to_work/
+
+
+https://ubuntuforums.org/printthread.php?s=6af7a7fc6bd53fab9bfd31381c8e621b&t=2469690&pp=10&page=1
+https://community.frame.work/t/responded-fingerprint-scanner-compatibility-with-linux-ubuntu-fedora-etc/1501/131
+https://community.frame.work/t/responded-fingerprint-scanner-compatibility-with-linux-ubuntu-fedora-etc/1501/17
+
+https://lvfs.readthedocs.io/en/latest/custom-plugin.html#building-fwupd
+https://github.com/fwupd/fwupd
+https://github.com/fwupd/fwupd/wiki/Compilation
+https://gitlab.freedesktop.org/libfprint/libfprint/-/issues/411
+
+https://wiki.archlinux.org/title/SDDM#Using_a_fingerprint_reader
+
+FS7604 Touch Fingerprint Sensor with PurePrint
+06cb:00f0
+Bus 003 Device 004: ID 06cb:00f0 Synaptics, Inc.
+
+Synaptics FS7604 Touch Fingerprint Sensor with PurePrint(TM) USB\VID_06CB&PID_00F0
+
+[    2.579009] usb 3-7: new full-speed USB device number 4 using xhci_hcd
+[    2.733623] usb 3-7: New USB device found, idVendor=06cb, idProduct=00f0, bcdDevice= 0.00
+[    2.733625] usb 3-7: New USB device strings: Mfr=0, Product=0, SerialNumber=1
+[    2.733627] usb 3-7: SerialNumber: 432835bb7ab5
+
+Version 10.01.3478575
+Prometheus (10.01.3273255 → 10.01.3478575)
+
+
+/etc/pam.d/common-auth
++ auth	[success=3 default=ignore]	pam_fprintd.so max_tries=1 timeout=10
+
+
+sudo pam-auth-update

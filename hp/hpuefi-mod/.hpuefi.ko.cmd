@@ -1,0 +1,1 @@
+cmd_/usr/local/src/Elitebook840G8/hp/hpuefi-mod/hpuefi.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T arch/x86/module.lds -o /usr/local/src/Elitebook840G8/hp/hpuefi-mod/hpuefi.ko /usr/local/src/Elitebook840G8/hp/hpuefi-mod/hpuefi.o /usr/local/src/Elitebook840G8/hp/hpuefi-mod/hpuefi.mod.o;  true

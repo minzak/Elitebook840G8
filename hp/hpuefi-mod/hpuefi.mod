@@ -1,2 +1,2 @@
-/usr/local/src/hp/hpuefi-mod-3.04/hpuefi.o
+/usr/local/src/Elitebook840G8/hp/hpuefi-mod/hpuefi.o
 
